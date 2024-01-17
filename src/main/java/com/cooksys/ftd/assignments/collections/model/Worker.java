@@ -1,6 +1,6 @@
 package com.cooksys.ftd.assignments.collections.model;
-
-import java.util.List;
+import com.cooksys.ftd.assignments.collections.model.*;
+import java.util.*;
 
 import com.cooksys.ftd.assignments.collections.util.MissingImplementationException;
 
@@ -12,6 +12,9 @@ import com.cooksys.ftd.assignments.collections.util.MissingImplementationExcepti
  *  A worker should have a name, and, optionally, a manager superior to them.
  */
 public class Worker implements Employee {
+	
+	private String name;
+	private Manager manager;
 
     // TODO: Does this class need private fields? If so, add them here
 
@@ -21,7 +24,7 @@ public class Worker implements Employee {
      * @param name the name of the worker to be created
      */
     public Worker(String name) {
-        throw new MissingImplementationException();
+        this.name = name;
     }
 
     /**
@@ -31,7 +34,8 @@ public class Worker implements Employee {
      * @param manager the direct manager of the worker to be created
      */
     public Worker(String name, Manager manager) {
-        throw new MissingImplementationException();
+        this.name = name;
+        this.manager = manager;
     }
 
     /**
@@ -41,7 +45,7 @@ public class Worker implements Employee {
      */
     @Override
     public String getName() {
-        throw new MissingImplementationException();
+        return this.name;
     }
 
     /**
@@ -51,7 +55,11 @@ public class Worker implements Employee {
      */
     @Override
     public boolean hasManager() {
-        throw new MissingImplementationException();
+        if(this.manager == null) {
+        	return false;
+        }
+        return true;
+        
     }
 
     /**
@@ -61,7 +69,10 @@ public class Worker implements Employee {
      */
     @Override
     public Manager getManager() {
-        throw new MissingImplementationException();
+        if(this.manager != null) {
+        	return this.manager;
+        }
+        return null;
     }
 
     /**
@@ -79,7 +90,13 @@ public class Worker implements Employee {
      */
     @Override
     public List<Manager> getChainOfCommand() {
-        throw new MissingImplementationException();
+        List<Manager> finaly = new List<>();
+        Manager current;
+        while(current != null) {
+        	finaly.add(current);
+        	current = current.getManager();
+        }
+        return finaly;
     }
 
     // TODO: Does this class need custom .equals() and .hashcode() methods? If so, implement them here.

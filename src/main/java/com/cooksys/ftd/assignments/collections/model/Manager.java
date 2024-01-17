@@ -1,5 +1,5 @@
 package com.cooksys.ftd.assignments.collections.model;
-
+import com.cooksys.ftd.assignments.collections.model.Manager;
 import java.util.List;
 
 import com.cooksys.ftd.assignments.collections.util.MissingImplementationException;
@@ -14,14 +14,15 @@ import com.cooksys.ftd.assignments.collections.util.MissingImplementationExcepti
 public class Manager implements Employee {
 
     // TODO: Does this class need private fields? If so, add them here
-
+	private Manager manager;
+	private String name;
     /**
      * TODO: Implement this constructor.
      *
      * @param name the name of the manager to be created
      */
     public Manager(String name) {
-        throw new MissingImplementationException();
+        this.name = name;
     }
 
     /**
@@ -31,7 +32,8 @@ public class Manager implements Employee {
      * @param manager the direct manager of the manager to be created
      */
     public Manager(String name, Manager manager) {
-        throw new MissingImplementationException();
+        this.name = name;
+        this.manager = manager;
     }
 
     /**
@@ -41,7 +43,7 @@ public class Manager implements Employee {
      */
     @Override
     public String getName() {
-        throw new MissingImplementationException();
+        return this.name;
     }
 
     /**
@@ -51,7 +53,10 @@ public class Manager implements Employee {
      */
     @Override
     public boolean hasManager() {
-        throw new MissingImplementationException();
+        if(this.manager == null) {
+        	return false;
+        }
+        return true;
     }
 
     /**
@@ -61,7 +66,10 @@ public class Manager implements Employee {
      */
     @Override
     public Manager getManager() {
-        throw new MissingImplementationException();
+        if(this.manager != null) {
+        	return this.manager;
+        }
+        return null;
     }
 
     /**
