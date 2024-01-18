@@ -90,14 +90,31 @@ public class Worker implements Employee {
      */
     @Override
     public List<Manager> getChainOfCommand() {
-        List<Manager> finaly = new List<>();
-        Manager current;
+        List<Manager> finaly = new ArrayList<>();
+        Manager current = this.manager;
         while(current != null) {
         	finaly.add(current);
         	current = current.getManager();
         }
         return finaly;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(manager, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Worker other = (Worker) obj;
+		return Objects.equals(manager, other.manager) && Objects.equals(name, other.name);
+	}
 
     // TODO: Does this class need custom .equals() and .hashcode() methods? If so, implement them here.
 

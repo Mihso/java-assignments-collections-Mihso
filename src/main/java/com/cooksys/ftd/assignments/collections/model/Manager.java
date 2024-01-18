@@ -1,6 +1,9 @@
 package com.cooksys.ftd.assignments.collections.model;
 import com.cooksys.ftd.assignments.collections.model.Manager;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.cooksys.ftd.assignments.collections.util.MissingImplementationException;
 
@@ -25,7 +28,24 @@ public class Manager implements Employee {
         this.name = name;
     }
 
-    /**
+    @Override
+	public int hashCode() {
+		return Objects.hash(manager, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Manager other = (Manager) obj;
+		return Objects.equals(manager, other.manager) && Objects.equals(name, other.name);
+	}
+
+	/**
      *  TODO: Implement this constructor.
      *
      * @param name the name of the manager to be created
@@ -87,7 +107,13 @@ public class Manager implements Employee {
      */
     @Override
     public List<Manager> getChainOfCommand() {
-        throw new MissingImplementationException();
+        List<Manager> finaly = new ArrayList<>();
+        Manager current = this.manager;
+        while(current != null) {
+        	finaly.add(current);
+        	current = current.getManager();
+        }
+        return finaly;
     }
 
     // TODO: Does this class need custom .equals() and .hashcode() methods? If so, implement them here.

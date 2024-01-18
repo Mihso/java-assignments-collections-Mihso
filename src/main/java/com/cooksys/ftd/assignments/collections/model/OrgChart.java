@@ -1,11 +1,8 @@
 package com.cooksys.ftd.assignments.collections.model;
-
 import java.util.Map;
 import java.util.Set;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.ArrayList;
-import com.cooksys.ftd.assignments.collections.model.Employee;
+import java.util.*;
 import com.cooksys.ftd.assignments.collections.util.MissingImplementationException;
 
 public class OrgChart {
@@ -41,7 +38,27 @@ public class OrgChart {
      * @return true if the {@code Employee} was added successfully, false otherwise
      */
     public boolean addEmployee(Employee employee) {
-        throw new MissingImplementationException();
+    	
+    	if(orgChart.contains(employee) || employee == null){
+    		return false;
+    	}
+    	else {
+    		if(employee.getManager() != null) {
+    			if(!orgChart.contains(employee.getManager())) {
+    				addEmployee(employee.getManager());
+    			}
+    			this.orgChart.add(employee);
+    			return true;
+    		}
+    		else {
+    			if(employee instanceof Manager) {
+    	  			this.orgChart.add(employee);
+    				return true;
+    			}
+    			
+				return false;
+    			}
+    	}
     }
 
     /**
@@ -53,7 +70,10 @@ public class OrgChart {
      * @return true if the {@code Employee} has been added to the {@code OrgChart}, false otherwise
      */
     public boolean hasEmployee(Employee employee) {
-        throw new MissingImplementationException();
+    	if(orgChart.contains(employee)) {
+    		return true;
+    	}
+        return false;
     }
 
     /**
@@ -67,7 +87,7 @@ public class OrgChart {
      *         been added to the {@code OrgChart}
      */
     public Set<Employee> getAllEmployees() {
-        throw new MissingImplementationException();
+    	return new HashSet<>(orgChart);
     }
 
     /**
@@ -81,7 +101,13 @@ public class OrgChart {
      *         have been added to the {@code OrgChart}
      */
     public Set<Manager> getAllManagers() {
-        throw new MissingImplementationException();
+    	Set<Manager> finaly = new HashSet<>();
+        for(Employee unit: orgChart){
+        	if(unit instanceof Manager) {
+        		finaly.add((Manager)unit);
+        	}
+        }
+        return finaly;
     }
 
     /**
@@ -102,8 +128,13 @@ public class OrgChart {
      *         or if there are no subordinates for the given {@code Manager}
      */
     public Set<Employee> getDirectSubordinates(Manager manager) {
-//        Set<Employee> temp = new HashSet<>();
-    	throw new MissingImplementationException();
+        Set<Employee> temp = new HashSet<>();
+        for(Employee unit: orgChart) {
+        	if((Employee)unit.getManager() == manager ) {
+        		temp.add(unit);
+        	}
+        }  
+    	return temp;
     }
 
     /**
@@ -123,7 +154,14 @@ public class OrgChart {
      *         associated {@code Manager}, or an empty map if the {@code OrgChart} is empty.
      */
     public Map<Manager, Set<Employee>> getFullHierarchy() {
-        throw new MissingImplementationException();
+        Map<Manager, Set<Employee>> hierarchy = new HashMap<>();
+        
+    	for(Manager unit: this.getAllManagers()) {
+        	Set<Employee> newer = this.getDirectSubordinates(unit); 
+        	hierarchy.put(unit, newer);
+        }
+    	
+    	return hierarchy;
     }
 
 }
